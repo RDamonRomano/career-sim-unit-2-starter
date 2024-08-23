@@ -6,6 +6,7 @@ const API_URL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}`;
 const modal = document.querySelector(".modal");
 const modalContent = document.querySelector(".modal-content");
 const closeModal = document.querySelector("#close-modal");
+const mainContainer = document.querySelector("main");
 
 modal.addEventListener("click", function(e){
   // closes modal when you click outside the content area of the modal
@@ -31,7 +32,7 @@ const fetchAllPlayers = async () => {
     const res = await fetch(`${API_URL}/players`);
     console.log(res);
     const json = await res.json();
-    console.log(json.data.players);
+    console.log(json.data.playersls);
     return json.data.players;
   }catch(err){
      console.error("Uh oh, trouble fetching players!", err);
@@ -99,6 +100,17 @@ const removePlayer = async (playerId) => {
  * @param {Object[]} playerList - an array of player objects
  */
 const renderAllPlayers = (playerList) => {
+  console.log(playerList);
+  const playerCardsHTML = playerList.map(player => {
+    const playerCard = document.createElement("div");
+    playerCard.innerText = player.name;
+    return playerCard;
+  });
+
+  mainContainer.replaceChildren(...playerCardsHTML);
+ 
+  console.log(playerCardsHTML);
+
  // TODO
 
  // when you add a event handler to the buttons, you need to pass an id of the player
@@ -152,8 +164,8 @@ const renderNewPlayerForm = () => {
  */
 const init = async () => {
   const players = await fetchAllPlayers();
+  //console.log(players);
   renderAllPlayers(players);
-
   renderNewPlayerForm();
 };
 
