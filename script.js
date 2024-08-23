@@ -103,7 +103,19 @@ const renderAllPlayers = (playerList) => {
   console.log(playerList);
   const playerCardsHTML = playerList.map(player => {
     const playerCard = document.createElement("div");
-    playerCard.innerText = player.name;
+    playerCard.classList.add("player-card");
+    const playerImg = document.createElement("img");
+    playerImg.src = player.imageUrl;
+    playerImg.alt = player.name;
+    const playerName = document.createElement("h3");
+    const detailsButton = document.createElement("button");
+    detailsButton.innerText = "See Details";
+    playerName.innerText = player.name;
+    detailsButton.addEventListener("click", function () {
+      modal.classList.add("modal-open");
+      modalContent.classList.add("modal-content-open");
+    });
+    playerCard.replaceChildren(playerImg, playerName, detailsButton);
     return playerCard;
   });
 
